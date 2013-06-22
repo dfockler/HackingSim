@@ -1,7 +1,7 @@
 module LinuxSoftware
 
-	def help(message)
-		puts "Cats " + message
+	def help(message1, message2)
+		puts "Cats " + message1 + " " + message2
 	end
 	
 	def ifconfig()
@@ -10,12 +10,16 @@ module LinuxSoftware
 
 	def print_ip()
 		puts "Internal IP: %s" % @inter_ip
-		puts("External IP: %s" % @extern_ip)
-		puts("MAC: %s" % @mac)
+		puts "External IP: %s" % @extern_ip
+		puts "MAC: %s" % @mac
 	end
 
 	def calc(args)
 		puts eval(args)
+	end
+
+	def lots(*args)
+		puts args
 	end
 
 	#checks login passwords/usernames
@@ -28,13 +32,13 @@ module LinuxSoftware
         print message
 
 
-        if(@opsys == "linux")
+        if @opsys == "linux"
             print linux[0]
             username = gets.chomp 
-            if (users.has_key?(username))
+            if @users.has_key?(username)
                 print linux[1]
                 password = gets.chomp
-                if(@users.key(password) == username) 
+                if @users[username] == password
                     user_loop(username)
                 end
             end
@@ -58,11 +62,11 @@ module LinuxSoftware
 
 	        if @software.include?(command)
 	            if !args.nil? 
-	                self.send(command, args)
+	                self.send(command, *args)
 	            else
 	                self.send(command)
 	            end
-			elsif(command == "exit")
+			elsif command == "exit"
 				print("Shutting down...\n")
 				sleep 3
 				print "Goodbye..."
