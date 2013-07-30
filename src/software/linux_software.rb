@@ -1,3 +1,5 @@
+require 'optparse'
+
 module LinuxSoftware
 
 	def help(message1, message2)
@@ -14,12 +16,34 @@ module LinuxSoftware
 		puts "MAC: %s" % @mac
 	end
 
+	def ping(*args)
+
+		options = {}
+		options[:count] = 5
+
+		opt_parser = OptionParser.new do |opts|
+			opts.banner = "Usage: blah blah"
+			opts.separator(" ")
+
+			opts.on("-c", "--optional [INTEGER]", Integer, "Limit ping count") do |count| 
+				options[:count] = count
+			end
+
+			opts.on("-i", "--ip" "--required [STRING]", String, "Enter the IP Address of the object") do |ip|
+				options[:ip] = ip
+			end
+		end
+
+		opt_parser.parse!(args)
+		
+	end
+
 	def calc(args)
 		puts eval(args)
 	end
 
 	def lots(*args)
-		puts args
+		
 	end
 
 	#checks login passwords/usernames
